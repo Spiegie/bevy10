@@ -1,8 +1,7 @@
-use std::collections;
+
 use bevy::prelude::*;
 use bevy::window::*;
 use bevy::utils::Duration;
-use collections::HashMap;
 
 
 #[derive(Reflect, Component, Default)]
@@ -20,14 +19,28 @@ pub struct Health {
     pub value: i32,
 }
 
-
-#[derive(Component, Reflect)]
-struct Animation {
-    texture_atlas: TextureAtlas,
+#[derive(Component)]
+pub struct AnimationController {
+    pub animation_information: Vec<AnimationInfo>,
+    pub current_animation: usize,
 }
 
-#[derive(Component)]
-struct Animations (pub HashMap<String,Animation>);
+impl AnimationController {
+    pub fn get_current_duration(&self) -> Duration {
+        self.animation_information[self.current_animation].duration
+    }
+    pub fn get_current_indexes(&self) -> (usize, usize) {
+        self.animation_information[self.current_animation].animation_indexes
+    }
+}
+
+#[derive(Component, Reflect)]
+pub struct AnimationInfo {
+    //texture_atlas: TextureAtlas,
+    pub animation_indexes: (usize, usize),
+    pub duration: Duration,
+}
+
 
 #[derive(Component, Reflect)]
 pub struct AnimationTimer(pub Timer);
@@ -75,7 +88,7 @@ pub fn spawn_player(
 ) {
     let window = window_query.get_single().unwrap();
     let texture_handle = asset_server.load("textures/rpg/chars/gabe/gabe-idle-run.png");
-    let texture_atlas = TextureAtlas::from_grid(texture_handle, Vec2::new(24.0, 24.0), 6, 2, None, None);
+    let texture_atlas = TextureAtlas::from_grid(texture_handle, Vec2::new(24.0, 24.0), 6, 5, None, None);
     let texture_atlas_handle = texture_atlases.add(texture_atlas);
     commands
         .spawn(SpriteSheetBundle {
@@ -85,6 +98,19 @@ pub fn spawn_player(
             ..Default::default()
         })
         .insert(AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)))
+        .insert(AnimationController {
+            animation_information: vec![
+                AnimationInfo {
+                    animation_indexes: (0, 1),
+                    duration: Duration::from_millis(800),
+                },
+                AnimationInfo {
+                    animation_indexes: (6, 11),
+                    duration: Duration::from_millis(150),
+                }
+            ],
+            current_animation: 1,
+        })
         .insert(Player {
             speed: 5000.0,
             animation: 1,
@@ -96,12 +122,20 @@ pub fn spawn_player(
 
 pub fn animate_player(
     time: Res<Time>,
-    mut query: Query<(&mut AnimationTimer, &mut TextureAtlasSprite, &mut Player)>,
+    mut query: Query<(&mut AnimationTimer, &mut TextureAtlasSprite, &mut AnimationController)>
 ) {
-    let (mut timer, mut sprite, player) = query.single_mut();
-    timer.0.set_duration(player.animation_duration);
+    let (mut timer, mut sprite, animation_controller) = query.single_mut();
+    let (start_index, end_index) = animation_controller.get_current_indexes();
+    timer.0.set_duration(animation_controller.get_current_duration());
     timer.0.tick(time.delta());
     if timer.0.finished() {
-        sprite.index = ((sprite.index + 1) % player.animation_len) + 6 * player.animation;
+        if sprite.index >= end_index {
+            sprite.index = start_index;
+        } else if sprite.index < start_index {
+            sprite.index = start_index
+        }
+        else {
+            sprite.index += 1;
+        }
     }
 }
