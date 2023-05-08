@@ -3,6 +3,9 @@ use bevy::prelude::*;
 use bevy::window::*;
 use bevy::utils::Duration;
 
+use crate::animation::*;
+use crate::animation::animation::{AnimationController, AnimationInfo, AnimationTimer};
+
 
 #[derive(Reflect, Component, Default)]
 #[reflect(Component)]
@@ -19,32 +22,6 @@ pub struct Health {
     pub value: i32,
 }
 
-#[derive(Component)]
-pub struct AnimationController {
-    pub animation_information: Vec<AnimationInfo>,
-    pub current_animation: usize,
-}
-
-impl AnimationController {
-    pub fn get_current_duration(&self) -> Duration {
-        self.animation_information[self.current_animation].duration
-    }
-    pub fn get_current_indexes(&self) -> (usize, usize) {
-        self.animation_information[self.current_animation].animation_indexes
-    }
-}
-
-#[derive(Component, Reflect)]
-pub struct AnimationInfo {
-    //texture_atlas: TextureAtlas,
-    pub animation_indexes: (usize, usize),
-    pub duration: Duration,
-}
-
-
-#[derive(Component, Reflect)]
-pub struct AnimationTimer(pub Timer);
-
 /*pub fn spawn_player(
     mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
@@ -57,6 +34,7 @@ pub struct AnimationTimer(pub Timer);
             transform: Transform::from_xyz(window.width() / 2.0, window.height() / 2.0, 0.0),
             texture: asset_server.load("sprites/ball.png"),
             ..default()
+    mut _commands: Commands,
         },
         Player {},
     ));
@@ -92,7 +70,7 @@ pub fn spawn_player(
     let texture_atlas_handle = texture_atlases.add(texture_atlas);
     commands
         .spawn(SpriteSheetBundle {
-            transform: Transform::from_xyz(window.width() / 2.0, window.height() / 2.0, 0.0),
+            transform: Transform::from_xyz(0.0,0.0, 10.0),
             sprite: TextureAtlasSprite::new(0),
             texture_atlas: texture_atlas_handle,
             ..Default::default()
@@ -118,24 +96,4 @@ pub fn spawn_player(
             animation_duration: Duration::from_millis(800)
         })
         .insert(Name::new("Player"));
-}
-
-pub fn animate_player(
-    time: Res<Time>,
-    mut query: Query<(&mut AnimationTimer, &mut TextureAtlasSprite, &mut AnimationController)>
-) {
-    let (mut timer, mut sprite, animation_controller) = query.single_mut();
-    let (start_index, end_index) = animation_controller.get_current_indexes();
-    timer.0.set_duration(animation_controller.get_current_duration());
-    timer.0.tick(time.delta());
-    if timer.0.finished() {
-        if sprite.index >= end_index {
-            sprite.index = start_index;
-        } else if sprite.index < start_index {
-            sprite.index = start_index
-        }
-        else {
-            sprite.index += 1;
-        }
-    }
 }
