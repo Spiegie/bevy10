@@ -19,13 +19,13 @@ fn main() {
             }),
             ..default()
         }))
-        .add_plugin(TilemapPlugin)
-        .add_startup_system(spawn_camera)
-        .add_startup_system(spawn_tilemap)
-        .add_startup_system(entities::player::spawn_player)
-        .add_system(animation::animation::animate_entity)
-        .add_system(swap_texture_or_hide)
-        .add_system(get_tilemap)
+        .add_plugins(TilemapPlugin)
+        .add_systems(Startup, spawn_camera)
+        .add_systems(Startup, spawn_tilemap)
+        .add_systems(Startup, entities::player::spawn_player)
+        .add_systems(Update, animation::animation::animate_entity)
+        .add_systems(Update, swap_texture_or_hide)
+        .add_systems(Update, get_tilemap)
         .run();
 }
 
@@ -77,9 +77,8 @@ pub fn get_tilemap(
     for x in 0..tilemap_size.x {
         for y in 0..tilemap_size.y/2 {
             let entity = &tilemap.get(&TilePos{x,y}).unwrap();
-            let is_blocking = tile_query.get_component::<BlockingTile>(*entity).unwrap().blocking;
-            let layer = tile_query.get_component::<BlockingTile>(*entity).unwrap().layer;
-            println!("{:?}{:?}",is_blocking,layer);
+            let _is_blocking = tile_query.get_component::<BlockingTile>(*entity).unwrap().blocking;
+            let _layer = tile_query.get_component::<BlockingTile>(*entity).unwrap().layer;
             commands 
                 .entity(*entity)
                 .insert(TileTextureIndex(3)
