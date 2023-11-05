@@ -1,5 +1,6 @@
 
 use bevy::prelude::*;
+use bevy::utils::HashMap;
 use bevy::window::*;
 use bevy::utils::Duration;
 
@@ -11,9 +12,6 @@ use crate::animation::animation::{AnimationController, AnimationInfo, AnimationT
 #[reflect(Component)]
 pub struct Player {
     pub speed: f32,
-    pub animation: usize,
-    pub animation_len: usize,
-    pub animation_duration: Duration
 }
 
 #[derive(Reflect, Component, Default)]
@@ -77,7 +75,7 @@ pub fn spawn_player(
         })
         .insert(AnimationTimer(Timer::from_seconds(0.1, TimerMode::Repeating)))
         .insert(AnimationController {
-            animation_information: vec![
+            /* animation_information: vec![
                 AnimationInfo {
                     animation_indexes: (0, 1),
                     duration: Duration::from_millis(800),
@@ -86,14 +84,19 @@ pub fn spawn_player(
                     animation_indexes: (6, 11),
                     duration: Duration::from_millis(150),
                 }
-            ],
-            current_animation: 1,
+            ], */
+            animations: HashMap::from([
+                ("walking".to_owned(), AnimationInfo{
+                    animation_indexes: (6,11),
+                    duration: Duration::from_millis(150),
+                    ..Default::default()
+                })
+            ]),
+            current_animation: "walking".to_owned(),
+            update_immediate: false,
         })
         .insert(Player {
             speed: 5000.0,
-            animation: 1,
-            animation_len: 5,
-            animation_duration: Duration::from_millis(800)
         })
         .insert(Name::new("Player"));
 }

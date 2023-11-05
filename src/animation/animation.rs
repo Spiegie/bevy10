@@ -1,28 +1,44 @@
-use bevy::prelude::{Component, Query, Reflect, Res, TextureAtlasSprite, Time, Timer};
+use bevy::{prelude::{Component, Query, Reflect, Res, TextureAtlasSprite, Time, Timer}, utils::HashMap};
 use std::time::Duration;
 
-#[derive(Component)]
-pub struct AnimationController {
-    pub animation_information: Vec<AnimationInfo>,
-    pub current_animation: usize,
-}
-
-impl AnimationController {
-    pub fn get_current_duration(&self) -> Duration {
-        self.animation_information[self.current_animation].duration
-    }
-    pub fn get_current_indexes(&self) -> (usize, usize) {
-        self.animation_information[self.current_animation].animation_indexes
-    }
-}
-
-#[derive(Component, Reflect)]
+#[derive(Component, Reflect, Copy, Clone)]
 pub struct AnimationInfo {
     //texture_atlas: TextureAtlas,
     pub animation_indexes: (usize, usize),
     pub duration: Duration,
+    pub onetime: bool,
+    pub looping: bool,
 }
 
+impl Default for AnimationInfo {
+    fn default() -> Self {
+        AnimationInfo {
+            animation_indexes: (0,0),
+            duration: Duration::from_millis(100),
+            onetime: false,
+            looping: true,
+        }
+    }
+}
+
+#[derive(Component)]
+pub struct AnimationController {
+    pub animations: HashMap<String, AnimationInfo>,
+    pub current_animation: String,
+    pub update_immediate: bool,
+}
+
+
+
+impl AnimationController {
+    pub fn get_animation_info(&self) -> (Duration, (usize, usize)) {
+        let animation_info = self.animations.get(&self.current_animation).unwrap();
+        (animation_info.duration, animation_info.animation_indexes )
+    }
+    pub fn reset(&mut self) {
+        self.update_immediate = true;
+    }
+}
 
 #[derive(Component, Reflect)]
 pub struct AnimationTimer(pub Timer);
@@ -31,18 +47,21 @@ pub fn animate_entity(
     time: Res<Time>,
     mut query: Query<(&mut AnimationTimer, &mut TextureAtlasSprite, &mut AnimationController)>
 ) {
-    let (mut timer, mut sprite, animation_controller) = query.single_mut();
-    let (start_index, end_index) = animation_controller.get_current_indexes();
-    timer.0.set_duration(animation_controller.get_current_duration());
-    timer.0.tick(time.delta());
-    if timer.0.finished() {
-        if sprite.index >= end_index {
-            sprite.index = start_index;
-        } else if sprite.index < start_index {
-            sprite.index = start_index
+
+    for (mut timer, mut sprite, mut animation_controller) in &mut query {
+        let (duration, (start_index, end_index)) = animation_controller.get_animation_info();
+        timer.0.set_duration(duration);
+        timer.0.tick(time.delta());
+        if animation_controller.update_immediate {
+            timer.0.set_elapsed(duration);
+            animation_controller.update_immediate = false
         }
-        else {
-            sprite.index += 1;
+        if timer.0.just_finished() {
+            sprite.index = if sprite.index >= end_index || sprite.index < start_index {
+                start_index
+            } else {
+                sprite.index + 1 
+            }
         }
     }
 }
