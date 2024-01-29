@@ -64,7 +64,7 @@ pub fn spawn_player(
 ) {
     let window = window_query.get_single().unwrap();
     let texture_handle = asset_server.load("textures/rpg/chars/gabe/gabe-idle-run.png");
-    let texture_atlas = TextureAtlas::from_grid(texture_handle, Vec2::new(24.0, 24.0), 6, 5, None, None);
+    let texture_atlas = TextureAtlas::from_grid(texture_handle, Vec2::new(24.0, 24.0), 7, 1, None, None);
     let texture_atlas_handle = texture_atlases.add(texture_atlas);
     commands
         .spawn(SpriteSheetBundle {
@@ -87,7 +87,7 @@ pub fn spawn_player(
             ], */
             animations: HashMap::from([
                 ("walking".to_owned(), AnimationInfo{
-                    animation_indexes: (6,11),
+                    animation_indexes: (1,6),
                     duration: Duration::from_millis(150),
                     ..Default::default()
                 })

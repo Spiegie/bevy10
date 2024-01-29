@@ -2,8 +2,6 @@ use bevy::prelude::*;
 use bevy::window::*;
 use bevy_ecs_tilemap::prelude::*;
 
-use entities::player;
-
 
 mod entities;
 mod animation;
@@ -28,8 +26,6 @@ fn main() {
         //.add_systems(Update, get_tilemap)
         .run();
 }
-
-// 
 
 pub fn spawn_camera(mut commands: Commands, window_query: Query<&Window, With<PrimaryWindow>>) {
     let _window = window_query.get_single().unwrap();
