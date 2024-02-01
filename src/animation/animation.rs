@@ -1,6 +1,8 @@
 use bevy::{prelude::{Component, Query, Reflect, Res, TextureAtlasSprite, Time, Timer}, utils::HashMap};
 use std::time::Duration;
 
+use crate::entities::{entities::EntityPhysics};
+
 #[derive(Component, Reflect, Copy, Clone)]
 pub struct AnimationInfo {
     //texture_atlas: TextureAtlas,
@@ -35,7 +37,7 @@ impl AnimationController {
         let animation_info = self.animations.get(&self.current_animation).unwrap();
         (animation_info.duration, animation_info.animation_indexes )
     }
-    pub fn reset(&mut self) {
+    pub fn _reset(&mut self) {
         self.update_immediate = true;
     }
 }
@@ -45,10 +47,10 @@ pub struct AnimationTimer(pub Timer);
 
 pub fn animate_entity(
     time: Res<Time>,
-    mut query: Query<(&mut AnimationTimer, &mut TextureAtlasSprite, &mut AnimationController)>
+    mut query: Query<(&mut AnimationTimer, &mut TextureAtlasSprite, &mut AnimationController, &EntityPhysics)>
 ) {
 
-    for (mut timer, mut sprite, mut animation_controller) in &mut query {
+    for (mut timer, mut sprite, mut animation_controller, entity_physics) in &mut query {
         let (duration, (start_index, end_index)) = animation_controller.get_animation_info();
         timer.0.set_duration(duration);
         timer.0.tick(time.delta());
@@ -60,8 +62,10 @@ pub fn animate_entity(
             sprite.index = if sprite.index >= end_index || sprite.index < start_index {
                 start_index
             } else {
-                sprite.index + 1 
+                sprite.index + 1
             }
         }
+
+        sprite.flip_x = !entity_physics.facing_right;
     }
 }
