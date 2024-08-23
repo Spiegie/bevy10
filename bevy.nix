@@ -4,14 +4,15 @@ with import <nixpkgs> {};
 stdenv.mkDerivation {
   name = "rust-env";
   nativeBuildInputs = [
-    rustc 
-    cargo
+    rustup
     gcc 
     rustfmt 
     clippy
     pkg-config
+    libpqxx
     alsa-lib
     libudev-zero
+    rust-analyzer
   ];
   buildInputs = [
     openssl
@@ -22,11 +23,10 @@ stdenv.mkDerivation {
   RUST_BACKTRACE = 1;
   # ENV Variables
   LD_LIBRARY_PATH = "${geos}/lib:${gdal}/lib";
-  # Post Shell Hook
   shellHook = ''
     export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${
       with pkgs;
-      lib.makeLibraryPath [ libGL xorg.libX11 xorg.libXi xorg.libXcursor xorg.libXrandr vulkan-loader ]
+      lib.makeLibraryPath [ libGL libxkbcommon xorg.libX11 xorg.libXi xorg.libXcursor xorg.libXrandr vulkan-loader ]
     }"
   '';
 }

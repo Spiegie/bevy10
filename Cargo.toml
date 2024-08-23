@@ -12,5 +12,8 @@ opt-level = 1
 opt-level = 3
 
 [dependencies]
-bevy = { version = "0.12" }
-bevy_rapier2d = { version = "0.23", features = [ "debug-render-2d" ] }
+bevy = { version = "0.14.1" }
+avian2d = "0.1"
+bevy_spritesheet_animation = "0.2"
+bevy_light_2d = "0.3"
+bevy_egui = "0.29"

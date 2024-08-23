@@ -1,11 +1,9 @@
+use avian2d::prelude::*;
 use bevy::prelude::*;
 use bevy::window::*;
-use bevy_rapier2d::prelude::*;
 use entities::player;
 
-
 mod entities;
-mod animation;
 
 fn main() {
     App::new()
@@ -17,23 +15,15 @@ fn main() {
             }),
             ..default()
         }))
-        .add_plugins(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
-        .add_plugins(RapierDebugRenderPlugin::default())
+        .add_plugins(PhysicsPlugins::default())
+        .add_plugins(PhysicsDebugPlugin::default())
+        .insert_resource(Gravity(Vec2::NEG_Y * 1.0))
         .add_systems(Startup, spawn_camera)
         .add_systems(Startup, entities::player::spawn_player)
-        .add_systems(Startup, setup_physics)
-        .add_systems(Update, animation::animation::animate_entity)
         .add_systems(Update, player::move_player)
         .run();
 }
 
-pub fn setup_physics(mut commands: Commands) {
-
-    commands
-        .spawn(Collider::cuboid(500.0, 50.0))
-        .insert(TransformBundle::from(Transform::from_xyz(0.0, -100.0, 0.0)));
-
-}
 pub fn spawn_camera(mut commands: Commands, window_query: Query<&Window, With<PrimaryWindow>>) {
     let _window = window_query.get_single().unwrap();
 

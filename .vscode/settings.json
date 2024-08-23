@@ -1,4 +1,4 @@
 {
     "nixEnvSelector.suggestion": false,
-    "nixEnvSelector.nixFile": "${workspaceRoot}/bevy.nix"
+    "nixEnvSelector.nixFile": "${workspaceFolder}/bevy.nix"
 }

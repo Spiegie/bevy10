@@ -1,4 +1,4 @@
-use bevy::prelude::*;
+use bevy::{ecs::query::QueryData, prelude::*};
 
 #[derive(Reflect, Component, Default)]
 #[reflect(Component)]
