@@ -12,7 +12,7 @@ No matter which side you choose, your missions will be varied and challenging. Y
 
 Outfit your ship with a wide range of equipment to gain the upper hand in battle. Scavenge advanced systems from the battlefield or purchase upgrades to enhance your ship’s capabilities. Whether it’s more powerful weapons, better armor, or advanced navigation systems, the right equipment can make all the difference.
 
-But it’s not just your ship that matters—your crew plays a crucial role too. The abilities and experience of your crew will directly impact the performance of your Lander and Spaceship. Assemble a team that complements your playstyle, whether you need expert gunners, skilled engineers, or brave medics to handle the heat of battle.
+But it’s not just your ship that matters - your crew plays a crucial role too. The abilities and experience of your crew will directly impact the performance of your Lander and Spaceship. Assemble a team that complements your playstyle, whether you need expert gunners, skilled engineers, or brave medics to handle the heat of battle.
 
 Prepare for a thrilling mix of choice, strategy, and action in Spaceship Lander, where both your ship and your crew determine your fate!
 
@@ -22,7 +22,7 @@ Prepare for a thrilling mix of choice, strategy, and action in Spaceship Lander,
 In Spaceship lander, there are different Mission types:
 
 1. Supply / Reinforcement
-- As war rages on distant planets, the front lines are desperate for supplies and fresh troops. Your mission is to fly into the heart of the conflict, navigating treacherous terrain and enemy fire, to deliver crucial supplies or reinforcements to ground forces. Speed and precision are key—delay could mean the difference between victory and defeat.
+- As war rages on distant planets, the front lines are desperate for supplies and fresh troops. Your mission is to fly into the heart of the conflict, navigating treacherous terrain and enemy fire, to deliver crucial supplies or reinforcements to ground forces. Speed and precision are key - delay could mean the difference between victory and defeat.
 
 2. Exfiltrate / Search and Rescue
 - When a mission goes south or a key asset needs to be extracted, you're the one they call. Land your ship in hostile territory to retrieve wounded soldiers, valuable intelligence, or high-profile individuals. With enemies closing in, you'll need to execute a flawless extraction and get your crew back to safety under heavy fire.
@@ -31,7 +31,7 @@ In Spaceship lander, there are different Mission types:
 - Not every mission is about brute force. Some require finesse and cunning. Slip past enemy defenses and land undetected behind enemy lines. Your goal is to insert special forces, sabotage key installations, or gather critical intel. Any detection could trigger alarms, turning your covert operation into a desperate fight for survival.
 
 4. Bombardment
-- When the situation on the ground becomes dire, the call for orbital support goes out. As the pilot of a heavily armed Lander, your task is to rain destruction on key enemy positions. Precision is crucial—you’ll need to deliver your payload without harming friendly forces or key assets.
+- When the situation on the ground becomes dire, the call for orbital support goes out. As the pilot of a heavily armed Lander, your task is to rain destruction on key enemy positions. Precision is crucial - you’ll need to deliver your payload without harming friendly forces or key assets.
 
 5. Reconnaissance
 - Intelligence is the backbone of any military operation. Fly to uncharted or enemy-controlled territories to gather vital information. Whether it’s mapping enemy defenses, identifying weak points, or scouting for future missions, your ability to remain undetected will determine the success of this mission.
