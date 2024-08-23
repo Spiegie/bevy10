@@ -16,3 +16,5 @@ Outfit your ship with a wide range of equipment to gain the upper hand in battle
 But it’s not just your ship that matters—your crew plays a crucial role too. The abilities and experience of your crew will directly impact the performance of your Lander and Spaceship. Assemble a team that complements your playstyle, whether you need expert gunners, skilled engineers, or brave medics to handle the heat of battle.
 
 Prepare for a thrilling mix of choice, strategy, and action in Spaceship Lander, where both your ship and your crew determine your fate!
+
+(Created with ChatGPT)
