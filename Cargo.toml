@@ -16,4 +16,5 @@ bevy = { version = "0.14.1" }
 avian2d = "0.1"
 bevy_spritesheet_animation = "0.2"
 bevy_light_2d = "0.3"
-bevy_egui = "0.29"
+bevy-inspector-egui = "0.25"
+pid = "4.0"

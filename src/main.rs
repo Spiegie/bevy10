@@ -2,7 +2,7 @@ use avian2d::prelude::*;
 use bevy::prelude::*;
 use bevy::window::*;
 use entities::player;
-
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 mod entities;
 
 fn main() {
@@ -16,8 +16,9 @@ fn main() {
             ..default()
         }))
         .add_plugins(PhysicsPlugins::default())
+        .add_plugins(WorldInspectorPlugin::new())
         .add_plugins(PhysicsDebugPlugin::default())
-        .insert_resource(Gravity(Vec2::NEG_Y * 1.0))
+        .insert_resource(Gravity(Vec2::NEG_Y * 25.0))
         .add_systems(Startup, spawn_camera)
         .add_systems(Startup, entities::player::spawn_player)
         .add_systems(Update, player::move_player)
